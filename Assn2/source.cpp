@@ -37,9 +37,12 @@ int main()
 	else
 		cout << "Error opening file" << endl;
 
+#ifndef NDEBUG
 	// printing from vector to console
-	/*for (STUDENT_DATA i : DataVector)
-		cout << i.FirstName << " " << i.LastName << endl;*/
+	for (STUDENT_DATA i : DataVector)
+		cout << i.FirstName << " " << i.LastName << endl;
+#endif // NDEBUG
+
 
 	return 1;
 }
