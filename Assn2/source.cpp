@@ -7,15 +7,25 @@
 #include <vector>
 using namespace std;
 
+#define PRE_RELEASE
+
 struct STUDENT_DATA
 {
 	string FirstName;
 	string LastName;
+	string Email;
 };
 
 int main()
 {
+#ifdef PRE_RELEASE
+	cout << "Running Pre-Release code" << endl;
+	string StudentDataFile = "StudentData_Emails.txt";
+#else
+	cout << "Running standard code" << endl;
 	string StudentDataFile = "StudentData.txt";
+#endif // PRE_RELEASE
+
 	string str;
 	STUDENT_DATA student;
 	vector <STUDENT_DATA> DataVector;
@@ -27,9 +37,16 @@ int main()
 		while (getline(file, str))
 		{
 			int comma = str.find(",");
+			int emailComma = str.find_last_of(",");
 
 			student.LastName = str.substr(0, comma);
+
+#ifdef PRE_RELEASE
+			student.FirstName = str.substr(comma + 1, emailComma);
+			student.Email = str.substr(emailComma + 1, str.length());
+#else
 			student.FirstName = str.substr(comma + 1, str.length());
+#endif // PRE_RELEASE
 
 			DataVector.push_back(student);
 		}
@@ -37,12 +54,16 @@ int main()
 	else
 		cout << "Error opening file" << endl;
 
-#ifndef NDEBUG
+#ifdef _DEBUG
+#ifdef PRE_RELEASE
+	for (STUDENT_DATA i : DataVector)
+		cout << i.FirstName << " " << i.LastName << " " << i.Email << endl;
+#else
 	// printing from vector to console
 	for (STUDENT_DATA i : DataVector)
 		cout << i.FirstName << " " << i.LastName << endl;
-#endif // NDEBUG
-
+#endif // PRE_RELEASE
+#endif // _DEBUG
 
 	return 1;
 }
