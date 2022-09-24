@@ -42,7 +42,7 @@ int main()
 			student.LastName = str.substr(0, comma);
 
 #ifdef PRE_RELEASE
-			student.FirstName = str.substr(comma + 1, emailComma);
+			student.FirstName = str.substr(comma + 1, emailComma - comma - 1);
 			student.Email = str.substr(emailComma + 1, str.length());
 #else
 			student.FirstName = str.substr(comma + 1, str.length());
